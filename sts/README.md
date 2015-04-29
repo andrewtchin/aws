@@ -18,7 +18,8 @@ using STS, Jenkins can perform specified actions in the devlopment account.
 
 ### Sample Application
 
-The sample application is running on an instance with the following IAM role:
+The sample application is running on an instance with the following IAM role
+(arn:aws:iam::<account-id>:role/assumerole):
 ```
 {
   "Version": "2012-10-17",
@@ -33,8 +34,8 @@ The sample application is running on an instance with the following IAM role:
 ```
 
 The application attempts to describe-instances, but this will fail.
-The application then acquires STS credentials for the IAM role with the
-following policy:
+The application then acquires STS credentials for the read only IAM role
+(arn:aws:iam::<account-id>:role/read-only)
 ```
 {
   "Version": "2012-10-17",
@@ -47,6 +48,25 @@ following policy:
   ]
 }
 ```
+
+The read only IAM role has the following trust policy:
+```
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "ec2.amazonaws.com",
+        "AWS": "arn:aws:iam::<account-id>:role/assumerole"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+```
+
 The application again attempts to describe-instances and succeeds.
 
 
