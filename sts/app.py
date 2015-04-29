@@ -7,9 +7,9 @@ def describe_instances(region):
     try:
         reservations = ec2_conn.get_all_reservations()
         for reservation in reservations:
-            print reservation.instances
+            print('Instance: {}'.format(reservation.instances))
     except:
-        continue
+        print('Failed to get reservations.')
 
 
 def parse_args():
