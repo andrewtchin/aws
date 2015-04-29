@@ -19,7 +19,7 @@ using STS, Jenkins can perform specified actions in the devlopment account.
 ### Sample Application
 
 The sample application is running on an instance with the following IAM role
-(arn:aws:iam::<account-id>:role/assumerole):
+(arn:aws:iam::\<account-id\>:role/assumerole):
 ```
 {
   "Version": "2012-10-17",
