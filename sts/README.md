@@ -35,7 +35,7 @@ The sample application is running on an instance with the following IAM role
 
 The application attempts to describe-instances, but this will fail.
 The application then acquires STS credentials for the read only IAM role
-(arn:aws:iam::<account-id>:role/read-only)
+(arn:aws:iam::\<account-id\>:role/read-only)
 ```
 {
   "Version": "2012-10-17",
