@@ -13,19 +13,25 @@ class STSHelper(object):
 
     def assume_role_env(self):
         credentials = self.assume_role_creds()
-        os.environ['AWS_ACCESS_KEY_ID'] = credentials.access_key
-        os.environ['AWS_SECRET_ACCESS_KEY'] = credentials.secret_key
-        os.environ['AWS_SECURITY_TOKEN'] = credentials.session_token
+        if credentials:
+            os.environ['AWS_ACCESS_KEY_ID'] = credentials.access_key
+            os.environ['AWS_SECRET_ACCESS_KEY'] = credentials.secret_key
+            os.environ['AWS_SECURITY_TOKEN'] = credentials.session_token
 
     def assume_role_creds(self):
         STSHelper.drop_role_env()
         conn = boto.sts.connect_to_region(self.region)
-        self.token = conn.sts.assume_role(self.role_arn,
-                                          self.session_name)
-        return self.token.credentials
+	try:
+            self.token = conn.assume_role(self.role_arn,
+                                          self.role_session_name)
+            print('Got STS credentials for {}'.format(self.role_arn))
+            return self.token.credentials
+        except boto.exception.BotoServerError:
+            print('Failed to get STS credentials for {}'.format(self.role_arn))
+            return None
 
     @staticmethod
-    def drop_role_env(self):
+    def drop_role_env():
         env_vars = ['AWS_ACCESS_KEY_ID',
                     'AWS_SECRET_ACCESS_KEY',
                     'AWS_SECURITY_TOKEN']
