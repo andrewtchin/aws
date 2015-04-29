@@ -49,7 +49,8 @@ The application then acquires STS credentials for the read only IAM role
 }
 ```
 
-The read only IAM role has the following trust policy:
+The read only IAM role (arn:aws:iam::\<account-id\>:role/read-only) has the
+following trust policy:
 ```
 {
   "Version": "2012-10-17",
